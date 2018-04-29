@@ -8,26 +8,60 @@ extern char* yyin;
 
 char* typeNames[] = {
 	NULL,
-	"PROGNAME",
-	"DEL_CODE",
-	"DEL_PAREN",
-	"DEL_BRCKT",
-	"DEL_CURLY",
-	"ASSIGN_OP",
-	"ARTH_OP_BI",
-	"ARTH_OP_UN",
-	"REL_OP_BI",
-	"LOGI_OP_BI",
-	"LOGI_OP_UN",
-	"KEY_FLOW_LOOP",
-	"KEY_FLOW_COND",
-	"KEY_DEC",
-	"KEY_DTYPE",
-	"KEY_FUNC",
+	"DEL_CODE_OP",
+	"DEL_CODE_CL",
+
+	"DEL_PAREN_OP",
+	"DEL_PAREN_CL",
+
+	"DEL_BRCKT_OP",
+	"DEL_BRCKT_CL",
+
+	"DEL_CURLY_OP",
+	"DEL_CURLY_CL",
+
+	"ASSIGN",
+
+	"ARI_INC",
+	"ARI_DEC",
+
+	"ARI_ADD",
+	"ARI_SUB",
+	"ARI_DIV",
+	"ARI_MUL",
+	"ARI_MOD",
+
+	"REL_GRTR_EQ",
+	"REL_LESS_EQ",
+	"REL_GRTR",
+	"REL_LESS",
+	"REL_EQ",
+	"REL_NOT_EQ",
+
+	"LOG_AND",
+	"LOG_OR",
+
+	"LOG_NOT",
+
+	"KEY_WHILE",
+	"KEY_FOR",
+
+	"KEY_IF",
+	"KEY_ELSE",
+
+	"KEY_DECLARE",
+	"KEY_STORE",
+	"KEY_YIELD",
+	"KEY_CLASS",
+	"KEY_DATATYPE",
+
 	"IDENTIFIER",
+
 	"LIT_INT",
 	"LIT_STRING",
-	"SEMICOLON"
+
+	"SEMICOLON",
+	"COLON"
 };
 
 char* getTypeName(int typeValue) {

@@ -1,0 +1,30 @@
+<program> -> //: <class> :/
+
+<class> -> class [identifier] { <class_statements> }
+
+<class_statements> -> <class_statement> <class_statements> | <class_statements>
+<class_statement> -> <if_statement> | <for_statement> | <while_statement>
+
+<expression> -> <arithmetic_expression> | <relational_expression> | <logical expression>
+
+
+<arithmetic_expression> -> <a_expr>
+
+<a_expr> -> <a_term> <a_expr_leftrec>
+<a_expr_leftrec> -> + <a_term> <a_expr_leftrec> | - <a_term> <a_exp_leftrec> | epsilon
+
+<a_term> -> <a_fctr> <a_term_leftrec>
+<a_term_leftrec> -> * <a_fctr> <arith_term_leftrec> | / <a_fctr> <a_term_leftrec> | epsilon
+
+<arith_fctr> -> identifier | int_literal | (a_expr)
+
+
+<relational_expression> -> <r_expr>
+
+<r_expr> -> <a_term> <r_expr_leftrec>
+<r_expr_leftrec> -> relational_op <r_term> <r_expr_leftrec> | epsilon
+
+<r_term> -> int_literal | identifier | (r_expr)
+
+
+<logical
