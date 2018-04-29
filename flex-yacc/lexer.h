@@ -1,0 +1,22 @@
+enum Type {
+	PROGNAME = 1,
+	DEL_CODE = 2, 
+	DEL_PAREN = 3,
+	DEL_BRCKT = 4, 
+	DEL_CURLY = 5,
+	ASSIGN_OP = 6,
+	ARTH_OP_BI = 7, 
+	ARTH_OP_UN = 8,
+	REL_OP_BI = 9,
+	LOGI_OP_BI = 10, 
+	LOGI_OP_UN = 11,
+	KEY_FLOW_LOOP = 12, 
+	KEY_FLOW_COND = 13, 
+	KEY_DEC = 14, 
+	KEY_DTYPE = 15, 
+	KEY_FUNC = 16,
+	IDENTIFIER = 17,
+	LIT_INT = 18, 
+	LIT_STRING = 19,
+	SEMICOLON = 20
+};
