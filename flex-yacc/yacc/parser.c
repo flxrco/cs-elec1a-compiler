@@ -1,5 +1,9 @@
 #include <stdio.h>
 
+int yyparse();
+int yyparseContainer();
+extern int yylineno;
+
 int main(void)
 {
 	#if YYDEBUG == 1
@@ -9,7 +13,11 @@ int main(void)
     return(yyparse());
 }
 
+int yyparseContainer() {
+	return(yyparse());
+}
+
 void yyerror(char *s)
 {
-    fprintf(stderr, "Error : Exiting %s\n", s);
+    fprintf(stderr, "Syntax error encountered on line %d. Terminating. %s\n", yylineno, s);
 }

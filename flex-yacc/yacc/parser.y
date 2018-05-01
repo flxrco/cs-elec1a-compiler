@@ -1,3 +1,8 @@
+%{
+#include <stdio.h>
+int yylex();
+void yyerror(const char *s);
+%}
 
 %token LIT_INT LIT_STRING 
 %token DEL_CODE_OP DEL_CODE_CL 
@@ -15,9 +20,11 @@
 %token IDENTIFIER
 %token ANTITOKEN
 
+%locations
+
 %%
 
-program	:	DEL_CODE_OP class DEL_CODE_CL
+program	:	DEL_CODE_OP class DEL_CODE_CL {printf("Parsing successful."); return 1;}
 
 class	:	KEY_CLASS DEL_BRCKT_OP IDENTIFIER DEL_BRCKT_CL DEL_CURLY_OP statements DEL_CURLY_CL
 
@@ -29,9 +36,10 @@ statement 	:	if_statement
 			|	for_statement
 			|	while_statement
 			|	declaration_statement
+			|	inner_statement SEMICOLON
 
 inner_statement	:	assignment_statement
-				|	method_call
+				|	yield_method
 
 if_statement	:	KEY_IF conditions KEY_THEN inner_statement SEMICOLON elseif_statements
 
@@ -94,9 +102,4 @@ yield_method	:	KEY_YIELD DEL_PAREN_OP yield_param DEL_PAREN_CL
 yield_param	:	arithmetic_expression
 			|	LIT_STRING
 
-method_call	:	store_method
-			|	yield_method
-
 %%
-
-#include "lex.yy.c"

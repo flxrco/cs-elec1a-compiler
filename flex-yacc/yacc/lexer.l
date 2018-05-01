@@ -1,10 +1,15 @@
+%{
+#include "parser.tab.h"
+YYSTYPE yylval;
+%}
+
 %option nounput yylineno
 
 %% //---token definition start
 
-"\/\/cmt:".*":\/"	;
+"$".*"$"	;
 
-[0-9]+			return LIT_INT;
+[\-]?[ \t\n]*[0-9]+			return LIT_INT;
 \"[^\"\n]*\"	return LIT_STRING;
 
 "\/\/:"	return DEL_CODE_OP;
@@ -51,6 +56,8 @@
 "else if"	return KEY_ELSEIF;
 "else"		return KEY_ELSE;
 "then"		return KEY_THEN;
+"step"		return KEY_STEP;
+"end"		return KEY_END;
 
 "declare"	return KEY_DECLARE;
 "store"		return KEY_STORE;
@@ -70,6 +77,7 @@
 
 %% //---token definition end
 
-int yywrap(void) {
-	return 1;
+int yywrap(void)
+{
+ return 0;
 }
