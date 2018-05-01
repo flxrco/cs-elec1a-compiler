@@ -1,0 +1,511 @@
+Terminals unused in grammar
+
+   SINGLE_LINE_COMMENT
+   MULTI_LINE_OPEN
+   MULTI_LINE_CLOSE
+   else
+
+
+Grammar
+
+    0 $accept: statements $end
+
+    1 statements: statement
+    2           | statement SEMICOLON statements
+
+    3 statement: if_statement
+    4          | while_statement
+    5          | assignment_statement
+
+    6 expression: value arithmethic_operator expression
+    7           | value
+
+    8 if_statement: if condition then statement endif
+
+    9 while_statement: while condition then statement endwhile
+
+   10 assignment_statement: int ID ASSIGN expression
+
+   11 condition: expression relation_operator expression
+   12          | expression logical_operator expression
+
+   13 relation_operator: LESS_THAN
+   14                  | LESS_THAN_EQUAL
+   15                  | GREATER_THAN
+   16                  | GREATER_THAN_EQUAL
+   17                  | NOT_EQUAL
+   18                  | EQUAL
+
+   19 logical_operator: AND
+   20                 | OR
+
+   21 arithmethic_operator: PLUS
+   22                     | MINUS
+   23                     | MULTIPLY
+   24                     | DIVIDE
+   25                     | MODULO
+
+   26 value: NUMBER
+   27      | ID
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+int (258) 10
+PLUS (259) 21
+MINUS (260) 22
+MULTIPLY (261) 23
+DIVIDE (262) 24
+MODULO (263) 25
+SEMICOLON (264) 2
+ASSIGN (265) 10
+LESS_THAN (266) 13
+LESS_THAN_EQUAL (267) 14
+GREATER_THAN (268) 15
+GREATER_THAN_EQUAL (269) 16
+NOT_EQUAL (270) 17
+EQUAL (271) 18
+AND (272) 19
+OR (273) 20
+SINGLE_LINE_COMMENT (274)
+MULTI_LINE_OPEN (275)
+MULTI_LINE_CLOSE (276)
+if (277) 8
+then (278) 8 9
+else (279)
+endif (280) 8
+while (281) 9
+endwhile (282) 9
+ID (283) 10 27
+NUMBER (284) 26
+
+
+Nonterminals, with rules where they appear
+
+$accept (30)
+    on left: 0
+statements (31)
+    on left: 1 2, on right: 0 2
+statement (32)
+    on left: 3 4 5, on right: 1 2 8 9
+expression (33)
+    on left: 6 7, on right: 6 10 11 12
+if_statement (34)
+    on left: 8, on right: 3
+while_statement (35)
+    on left: 9, on right: 4
+assignment_statement (36)
+    on left: 10, on right: 5
+condition (37)
+    on left: 11 12, on right: 8 9
+relation_operator (38)
+    on left: 13 14 15 16 17 18, on right: 11
+logical_operator (39)
+    on left: 19 20, on right: 12
+arithmethic_operator (40)
+    on left: 21 22 23 24 25, on right: 6
+value (41)
+    on left: 26 27, on right: 6 7
+
+
+state 0
+
+    0 $accept: . statements $end
+
+    int    shift, and go to state 1
+    if     shift, and go to state 2
+    while  shift, and go to state 3
+
+    statements            go to state 4
+    statement             go to state 5
+    if_statement          go to state 6
+    while_statement       go to state 7
+    assignment_statement  go to state 8
+
+
+state 1
+
+   10 assignment_statement: int . ID ASSIGN expression
+
+    ID  shift, and go to state 9
+
+
+state 2
+
+    8 if_statement: if . condition then statement endif
+
+    ID      shift, and go to state 10
+    NUMBER  shift, and go to state 11
+
+    expression  go to state 12
+    condition   go to state 13
+    value       go to state 14
+
+
+state 3
+
+    9 while_statement: while . condition then statement endwhile
+
+    ID      shift, and go to state 10
+    NUMBER  shift, and go to state 11
+
+    expression  go to state 12
+    condition   go to state 15
+    value       go to state 14
+
+
+state 4
+
+    0 $accept: statements . $end
+
+    $end  shift, and go to state 16
+
+
+state 5
+
+    1 statements: statement .
+    2           | statement . SEMICOLON statements
+
+    SEMICOLON  shift, and go to state 17
+
+    $default  reduce using rule 1 (statements)
+
+
+state 6
+
+    3 statement: if_statement .
+
+    $default  reduce using rule 3 (statement)
+
+
+state 7
+
+    4 statement: while_statement .
+
+    $default  reduce using rule 4 (statement)
+
+
+state 8
+
+    5 statement: assignment_statement .
+
+    $default  reduce using rule 5 (statement)
+
+
+state 9
+
+   10 assignment_statement: int ID . ASSIGN expression
+
+    ASSIGN  shift, and go to state 18
+
+
+state 10
+
+   27 value: ID .
+
+    $default  reduce using rule 27 (value)
+
+
+state 11
+
+   26 value: NUMBER .
+
+    $default  reduce using rule 26 (value)
+
+
+state 12
+
+   11 condition: expression . relation_operator expression
+   12          | expression . logical_operator expression
+
+    LESS_THAN           shift, and go to state 19
+    LESS_THAN_EQUAL     shift, and go to state 20
+    GREATER_THAN        shift, and go to state 21
+    GREATER_THAN_EQUAL  shift, and go to state 22
+    NOT_EQUAL           shift, and go to state 23
+    EQUAL               shift, and go to state 24
+    AND                 shift, and go to state 25
+    OR                  shift, and go to state 26
+
+    relation_operator  go to state 27
+    logical_operator   go to state 28
+
+
+state 13
+
+    8 if_statement: if condition . then statement endif
+
+    then  shift, and go to state 29
+
+
+state 14
+
+    6 expression: value . arithmethic_operator expression
+    7           | value .
+
+    PLUS      shift, and go to state 30
+    MINUS     shift, and go to state 31
+    MULTIPLY  shift, and go to state 32
+    DIVIDE    shift, and go to state 33
+    MODULO    shift, and go to state 34
+
+    $default  reduce using rule 7 (expression)
+
+    arithmethic_operator  go to state 35
+
+
+state 15
+
+    9 while_statement: while condition . then statement endwhile
+
+    then  shift, and go to state 36
+
+
+state 16
+
+    0 $accept: statements $end .
+
+    $default  accept
+
+
+state 17
+
+    2 statements: statement SEMICOLON . statements
+
+    int    shift, and go to state 1
+    if     shift, and go to state 2
+    while  shift, and go to state 3
+
+    statements            go to state 37
+    statement             go to state 5
+    if_statement          go to state 6
+    while_statement       go to state 7
+    assignment_statement  go to state 8
+
+
+state 18
+
+   10 assignment_statement: int ID ASSIGN . expression
+
+    ID      shift, and go to state 10
+    NUMBER  shift, and go to state 11
+
+    expression  go to state 38
+    value       go to state 14
+
+
+state 19
+
+   13 relation_operator: LESS_THAN .
+
+    $default  reduce using rule 13 (relation_operator)
+
+
+state 20
+
+   14 relation_operator: LESS_THAN_EQUAL .
+
+    $default  reduce using rule 14 (relation_operator)
+
+
+state 21
+
+   15 relation_operator: GREATER_THAN .
+
+    $default  reduce using rule 15 (relation_operator)
+
+
+state 22
+
+   16 relation_operator: GREATER_THAN_EQUAL .
+
+    $default  reduce using rule 16 (relation_operator)
+
+
+state 23
+
+   17 relation_operator: NOT_EQUAL .
+
+    $default  reduce using rule 17 (relation_operator)
+
+
+state 24
+
+   18 relation_operator: EQUAL .
+
+    $default  reduce using rule 18 (relation_operator)
+
+
+state 25
+
+   19 logical_operator: AND .
+
+    $default  reduce using rule 19 (logical_operator)
+
+
+state 26
+
+   20 logical_operator: OR .
+
+    $default  reduce using rule 20 (logical_operator)
+
+
+state 27
+
+   11 condition: expression relation_operator . expression
+
+    ID      shift, and go to state 10
+    NUMBER  shift, and go to state 11
+
+    expression  go to state 39
+    value       go to state 14
+
+
+state 28
+
+   12 condition: expression logical_operator . expression
+
+    ID      shift, and go to state 10
+    NUMBER  shift, and go to state 11
+
+    expression  go to state 40
+    value       go to state 14
+
+
+state 29
+
+    8 if_statement: if condition then . statement endif
+
+    int    shift, and go to state 1
+    if     shift, and go to state 2
+    while  shift, and go to state 3
+
+    statement             go to state 41
+    if_statement          go to state 6
+    while_statement       go to state 7
+    assignment_statement  go to state 8
+
+
+state 30
+
+   21 arithmethic_operator: PLUS .
+
+    $default  reduce using rule 21 (arithmethic_operator)
+
+
+state 31
+
+   22 arithmethic_operator: MINUS .
+
+    $default  reduce using rule 22 (arithmethic_operator)
+
+
+state 32
+
+   23 arithmethic_operator: MULTIPLY .
+
+    $default  reduce using rule 23 (arithmethic_operator)
+
+
+state 33
+
+   24 arithmethic_operator: DIVIDE .
+
+    $default  reduce using rule 24 (arithmethic_operator)
+
+
+state 34
+
+   25 arithmethic_operator: MODULO .
+
+    $default  reduce using rule 25 (arithmethic_operator)
+
+
+state 35
+
+    6 expression: value arithmethic_operator . expression
+
+    ID      shift, and go to state 10
+    NUMBER  shift, and go to state 11
+
+    expression  go to state 42
+    value       go to state 14
+
+
+state 36
+
+    9 while_statement: while condition then . statement endwhile
+
+    int    shift, and go to state 1
+    if     shift, and go to state 2
+    while  shift, and go to state 3
+
+    statement             go to state 43
+    if_statement          go to state 6
+    while_statement       go to state 7
+    assignment_statement  go to state 8
+
+
+state 37
+
+    2 statements: statement SEMICOLON statements .
+
+    $default  reduce using rule 2 (statements)
+
+
+state 38
+
+   10 assignment_statement: int ID ASSIGN expression .
+
+    $default  reduce using rule 10 (assignment_statement)
+
+
+state 39
+
+   11 condition: expression relation_operator expression .
+
+    $default  reduce using rule 11 (condition)
+
+
+state 40
+
+   12 condition: expression logical_operator expression .
+
+    $default  reduce using rule 12 (condition)
+
+
+state 41
+
+    8 if_statement: if condition then statement . endif
+
+    endif  shift, and go to state 44
+
+
+state 42
+
+    6 expression: value arithmethic_operator expression .
+
+    $default  reduce using rule 6 (expression)
+
+
+state 43
+
+    9 while_statement: while condition then statement . endwhile
+
+    endwhile  shift, and go to state 45
+
+
+state 44
+
+    8 if_statement: if condition then statement endif .
+
+    $default  reduce using rule 8 (if_statement)
+
+
+state 45
+
+    9 while_statement: while condition then statement endwhile .
+
+    $default  reduce using rule 9 (while_statement)

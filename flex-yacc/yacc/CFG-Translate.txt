@@ -1,0 +1,118 @@
+%token INT_T PLUS MINUS MULTIPLY DIVIDE MODULO SEMICOLON ASSIGN LESS_THAN LESS_THAN_EQUAL GREATER_THAN GREATER_THAN_EQUAL NOT_EQUAL EQUAL AND OR 
+SINGLE_LINE_COMMENT MULTI_LINE_OPEN MULTI_LINE_CLOSE IF_T THEN_T ELSE_T ENDIF_T WHILE_T ENDWHILE_T 
+%token ID NUMBER
+
+%%
+
+program : stmts
+		;
+stmts : stmt stmts 
+	  | stmt
+	  ;
+
+stmt : declare_stmt
+	 | in_stmt
+	 | out_stmt
+	 | if_stmt
+	 | forloop_stmt
+	 | whileloop_stmt
+	 ;
+	 
+declare_stmt : declaration_token colon_token integer_token colon_token var_name equal_token value semicolon_token
+			 ;
+
+assignment_stmt : var_name is_token equal_token value semicolon_token
+				;
+				
+value : digit_token
+	  ;
+
+input_stmt : store_token openparenthesis_token var_name closeparenthesis_token
+		   ;
+
+output_stmt : yield_token openparenthesis_token output closeparenthesis_token
+			;
+			
+output : expr
+	   | quote_token value quote_token
+	   ;
+	   
+expr : expr plus_token term 
+	 | expr minus_token term
+	 | term
+	 ;
+
+exprb : expr exprb 
+	  | epsilon
+	  ;
+	  
+term : term asterisk_token factor
+     | term slash_token factor
+	 | factor
+
+termb : expr exprb 
+	  | epsilon
+	  ;
+
+factor : value 
+       | openparenthesis_token expr closeparenthesis_token
+	   ;
+	   
+if_stmt : if_token condition_stmt then_token stmts semicolon_token
+		| if_token condition_stmt then stmts semicolon_token elseif_stmt
+		;
+
+elseif_stmt : elseif_token condition_stmt then_token stmts semicolon_token
+			| elseif_token condition_stmt then_token stmts elseif_stmt
+			| elseif_token condition_stmt then_token stmts else_stmt
+			| else_stmt
+			;
+
+else_stmt : else_token stmts semicolon_token
+		  ;
+
+condition_stmt : condition_stmt conditional_optr condition
+			   | condition
+			   ; 
+
+condition : var_name is_token rel_optr var_name condition
+		  | var_name is_token rel_optr value condition
+		  | value is_token rel_optr var_name condition
+		  | value is_token rel_optr value condition
+		  | rel_optr value
+		  |rel_optr var_name
+		  ;
+
+conditional_optr : and_token
+				 | or_token
+				 ; 
+				 
+rel_optr : equal_token
+		 | notequal_token
+		 | greaterthaneq_token
+		 | lessthaneq_token
+		 | lessthan_token
+		 | greaterthan_token
+		 ;
+
+forloop_stmt : forloop_token forloop_condition forloop_stmts step_token end_token semicolon_token
+			 ;
+	
+forloop_condition : val to_token val do_token
+				  ;
+				  
+forloop_stmts : condition forloop_stmts condition
+			  | forloop_stmt
+			  | forloop_condition
+			  
+forloop_condition : condition forloop_condition
+				  | semicolon_token condition forloop_condition
+				  | epsilon
+				  ;
+	
+whileloop_stmt : whileloop_token condition do_token condition semicolon_token
+			   ;
+			   
+%%
+
+#include "lex.yy.c"
