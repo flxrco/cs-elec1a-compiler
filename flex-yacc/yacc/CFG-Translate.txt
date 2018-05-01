@@ -103,9 +103,9 @@ forloop_condition : val to_token val do_token
 				  
 forloop_stmts : condition forloop_stmts condition
 			  | forloop_stmt
-			  | forloop_condition
+			  | forloop_conditions
 			  
-forloop_condition : condition forloop_condition
+forloop_conditions : condition forloop_condition
 				  | semicolon_token condition forloop_condition
 				  | epsilon
 				  ;
