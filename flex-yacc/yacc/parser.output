@@ -1,0 +1,1341 @@
+Terminals unused in grammar
+
+   ARI_INC
+   ARI_DEC
+   LOG_NOT
+   KEY_ELSE
+   KEY
+   COMMA
+   ANTITOKEN
+
+
+State 97 conflicts: 2 reduce/reduce
+
+
+Grammar
+
+    0 $accept: program $end
+
+    1 program: DEL_CODE_OP class DEL_CODE_CL
+
+    2 class: KEY_CLASS DEL_BRCKT_OP IDENTIFIER DEL_BRCKT_CL DEL_CURLY_OP statements DEL_CURLY_CL
+
+    3 statements: statement statements_prime
+
+    4 statements_prime: statement statements_prime
+    5                 | /* empty */
+
+    6 statement: if_statement
+    7          | for_statement
+    8          | while_statement
+    9          | declaration_statement
+
+   10 inner_statement: assignment_statement
+   11                | method_call
+
+   12 if_statement: KEY_IF conditions KEY_THEN inner_statement SEMICOLON elseif_statements
+
+   13 elseif_statements: elseif_statement elseif_statements_prime
+
+   14 elseif_statements_prime: elseif_statement elseif_statements_prime
+   15                        | /* empty */
+
+   16 elseif_statement: KEY_ELSEIF conditions KEY_THEN inner_statement SEMICOLON
+
+   17 while_statement: KEY_WHILE conditions KEY_DO inner_statement SEMICOLON
+
+   18 for_statement: KEY_FOR arithmetic_expression KEY_TO arithmetic_expression KEY_DO inner_statement KEY_STEP arithmetic_expression KEY_END SEMICOLON
+
+   19 declaration_statement: KEY_DECLARE COLON KEY_DATATYPE COLON IDENTIFIER ASSIGN assignment_value SEMICOLON
+
+   20 assignment_statement: IDENTIFIER ASSIGN assignment_value
+
+   21 assignment_value: LIT_INT
+   22                 | arithmetic_expression
+   23                 | store_method
+
+   24 arithmetic_expression: arithmetic_term arithmetic_expression_prime
+
+   25 arithmetic_expression_prime: ARI_ADD arithmetic_term arithmetic_expression_prime
+   26                            | ARI_SUB arithmetic_term arithmetic_expression_prime
+   27                            | /* empty */
+
+   28 arithmetic_term: arithmetic_factor arithmetic_term_prime
+
+   29 arithmetic_term_prime: ARI_MUL arithmetic_factor arithmetic_term_prime
+   30                      | ARI_MOD arithmetic_factor arithmetic_term_prime
+   31                      | ARI_DIV arithmetic_factor arithmetic_term_prime
+   32                      | /* empty */
+
+   33 arithmetic_factor: IDENTIFIER
+   34                  | LIT_INT
+
+   35 relational_expression: arithmetic_expression relational_operator arithmetic_expression relational_expression_prime
+
+   36 relational_expression_prime: relational_operator arithmetic_expression relational_expression_prime
+   37                            | /* empty */
+
+   38 relational_operator: REL_GRTR_EQ
+   39                    | REL_LESS_EQ
+   40                    | REL_LESS
+   41                    | REL_GRTR
+   42                    | REL_EQ
+   43                    | REL_NOT_EQ
+
+   44 logical_expression: logical_term logical_expression_prime
+
+   45 logical_expression_prime: logical_operator logical_term logical_expression_prime
+   46                         | /* empty */
+
+   47 logical_term: relational_expression
+
+   48 logical_operator: LOG_AND
+   49                 | LOG_OR
+
+   50 conditions: logical_expression
+
+   51 store_method: KEY_STORE DEL_PAREN_OP DEL_PAREN_CL
+
+   52 yield_method: KEY_YIELD DEL_PAREN_OP yield_param DEL_PAREN_CL
+
+   53 yield_param: arithmetic_expression
+   54            | LIT_STRING
+
+   55 method_call: store_method
+   56            | yield_method
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+LIT_INT (258) 21 34
+LIT_STRING (259) 54
+DEL_CODE_OP (260) 1
+DEL_CODE_CL (261) 1
+DEL_BRCKT_OP (262) 2
+DEL_BRCKT_CL (263) 2
+DEL_PAREN_OP (264) 51 52
+DEL_PAREN_CL (265) 51 52
+DEL_CURLY_OP (266) 2
+DEL_CURLY_CL (267) 2
+ARI_INC (268)
+ARI_DEC (269)
+ARI_ADD (270) 25
+ARI_SUB (271) 26
+ARI_DIV (272) 31
+ARI_MOD (273) 30
+ARI_MUL (274) 29
+REL_GRTR_EQ (275) 38
+REL_LESS_EQ (276) 39
+REL_GRTR (277) 41
+REL_LESS (278) 40
+REL_EQ (279) 42
+REL_NOT_EQ (280) 43
+ASSIGN (281) 19 20
+LOG_AND (282) 48
+LOG_OR (283) 49
+LOG_NOT (284)
+KEY_WHILE (285) 17
+KEY_FOR (286) 18
+KEY_END (287) 18
+KEY_STEP (288) 18
+KEY_TO (289) 18
+KEY_DO (290) 17 18
+KEY_IF (291) 12
+KEY_ELSE (292)
+KEY_ELSEIF (293) 16
+KEY_THEN (294) 12 16
+KEY (295)
+KEY_DECLARE (296) 19
+KEY_STORE (297) 51
+KEY_YIELD (298) 52
+KEY_CLASS (299) 2
+KEY_DATATYPE (300) 19
+SEMICOLON (301) 12 16 17 18 19
+COLON (302) 19
+COMMA (303)
+IDENTIFIER (304) 2 19 20 33
+ANTITOKEN (305)
+
+
+Nonterminals, with rules where they appear
+
+$accept (51)
+    on left: 0
+program (52)
+    on left: 1, on right: 0
+class (53)
+    on left: 2, on right: 1
+statements (54)
+    on left: 3, on right: 2
+statements_prime (55)
+    on left: 4 5, on right: 3 4
+statement (56)
+    on left: 6 7 8 9, on right: 3 4
+inner_statement (57)
+    on left: 10 11, on right: 12 16 17 18
+if_statement (58)
+    on left: 12, on right: 6
+elseif_statements (59)
+    on left: 13, on right: 12
+elseif_statements_prime (60)
+    on left: 14 15, on right: 13 14
+elseif_statement (61)
+    on left: 16, on right: 13 14
+while_statement (62)
+    on left: 17, on right: 8
+for_statement (63)
+    on left: 18, on right: 7
+declaration_statement (64)
+    on left: 19, on right: 9
+assignment_statement (65)
+    on left: 20, on right: 10
+assignment_value (66)
+    on left: 21 22 23, on right: 19 20
+arithmetic_expression (67)
+    on left: 24, on right: 18 22 35 36 53
+arithmetic_expression_prime (68)
+    on left: 25 26 27, on right: 24 25 26
+arithmetic_term (69)
+    on left: 28, on right: 24 25 26
+arithmetic_term_prime (70)
+    on left: 29 30 31 32, on right: 28 29 30 31
+arithmetic_factor (71)
+    on left: 33 34, on right: 28 29 30 31
+relational_expression (72)
+    on left: 35, on right: 47
+relational_expression_prime (73)
+    on left: 36 37, on right: 35 36
+relational_operator (74)
+    on left: 38 39 40 41 42 43, on right: 35 36
+logical_expression (75)
+    on left: 44, on right: 50
+logical_expression_prime (76)
+    on left: 45 46, on right: 44 45
+logical_term (77)
+    on left: 47, on right: 44 45
+logical_operator (78)
+    on left: 48 49, on right: 45
+conditions (79)
+    on left: 50, on right: 12 16 17
+store_method (80)
+    on left: 51, on right: 23 55
+yield_method (81)
+    on left: 52, on right: 56
+yield_param (82)
+    on left: 53 54, on right: 52
+method_call (83)
+    on left: 55 56, on right: 11
+
+
+state 0
+
+    0 $accept: . program $end
+
+    DEL_CODE_OP  shift, and go to state 1
+
+    program  go to state 2
+
+
+state 1
+
+    1 program: DEL_CODE_OP . class DEL_CODE_CL
+
+    KEY_CLASS  shift, and go to state 3
+
+    class  go to state 4
+
+
+state 2
+
+    0 $accept: program . $end
+
+    $end  shift, and go to state 5
+
+
+state 3
+
+    2 class: KEY_CLASS . DEL_BRCKT_OP IDENTIFIER DEL_BRCKT_CL DEL_CURLY_OP statements DEL_CURLY_CL
+
+    DEL_BRCKT_OP  shift, and go to state 6
+
+
+state 4
+
+    1 program: DEL_CODE_OP class . DEL_CODE_CL
+
+    DEL_CODE_CL  shift, and go to state 7
+
+
+state 5
+
+    0 $accept: program $end .
+
+    $default  accept
+
+
+state 6
+
+    2 class: KEY_CLASS DEL_BRCKT_OP . IDENTIFIER DEL_BRCKT_CL DEL_CURLY_OP statements DEL_CURLY_CL
+
+    IDENTIFIER  shift, and go to state 8
+
+
+state 7
+
+    1 program: DEL_CODE_OP class DEL_CODE_CL .
+
+    $default  reduce using rule 1 (program)
+
+
+state 8
+
+    2 class: KEY_CLASS DEL_BRCKT_OP IDENTIFIER . DEL_BRCKT_CL DEL_CURLY_OP statements DEL_CURLY_CL
+
+    DEL_BRCKT_CL  shift, and go to state 9
+
+
+state 9
+
+    2 class: KEY_CLASS DEL_BRCKT_OP IDENTIFIER DEL_BRCKT_CL . DEL_CURLY_OP statements DEL_CURLY_CL
+
+    DEL_CURLY_OP  shift, and go to state 10
+
+
+state 10
+
+    2 class: KEY_CLASS DEL_BRCKT_OP IDENTIFIER DEL_BRCKT_CL DEL_CURLY_OP . statements DEL_CURLY_CL
+
+    KEY_WHILE    shift, and go to state 11
+    KEY_FOR      shift, and go to state 12
+    KEY_IF       shift, and go to state 13
+    KEY_DECLARE  shift, and go to state 14
+
+    statements             go to state 15
+    statement              go to state 16
+    if_statement           go to state 17
+    while_statement        go to state 18
+    for_statement          go to state 19
+    declaration_statement  go to state 20
+
+
+state 11
+
+   17 while_statement: KEY_WHILE . conditions KEY_DO inner_statement SEMICOLON
+
+    LIT_INT     shift, and go to state 21
+    IDENTIFIER  shift, and go to state 22
+
+    arithmetic_expression  go to state 23
+    arithmetic_term        go to state 24
+    arithmetic_factor      go to state 25
+    relational_expression  go to state 26
+    logical_expression     go to state 27
+    logical_term           go to state 28
+    conditions             go to state 29
+
+
+state 12
+
+   18 for_statement: KEY_FOR . arithmetic_expression KEY_TO arithmetic_expression KEY_DO inner_statement KEY_STEP arithmetic_expression KEY_END SEMICOLON
+
+    LIT_INT     shift, and go to state 21
+    IDENTIFIER  shift, and go to state 22
+
+    arithmetic_expression  go to state 30
+    arithmetic_term        go to state 24
+    arithmetic_factor      go to state 25
+
+
+state 13
+
+   12 if_statement: KEY_IF . conditions KEY_THEN inner_statement SEMICOLON elseif_statements
+
+    LIT_INT     shift, and go to state 21
+    IDENTIFIER  shift, and go to state 22
+
+    arithmetic_expression  go to state 23
+    arithmetic_term        go to state 24
+    arithmetic_factor      go to state 25
+    relational_expression  go to state 26
+    logical_expression     go to state 27
+    logical_term           go to state 28
+    conditions             go to state 31
+
+
+state 14
+
+   19 declaration_statement: KEY_DECLARE . COLON KEY_DATATYPE COLON IDENTIFIER ASSIGN assignment_value SEMICOLON
+
+    COLON  shift, and go to state 32
+
+
+state 15
+
+    2 class: KEY_CLASS DEL_BRCKT_OP IDENTIFIER DEL_BRCKT_CL DEL_CURLY_OP statements . DEL_CURLY_CL
+
+    DEL_CURLY_CL  shift, and go to state 33
+
+
+state 16
+
+    3 statements: statement . statements_prime
+
+    KEY_WHILE    shift, and go to state 11
+    KEY_FOR      shift, and go to state 12
+    KEY_IF       shift, and go to state 13
+    KEY_DECLARE  shift, and go to state 14
+
+    $default  reduce using rule 5 (statements_prime)
+
+    statements_prime       go to state 34
+    statement              go to state 35
+    if_statement           go to state 17
+    while_statement        go to state 18
+    for_statement          go to state 19
+    declaration_statement  go to state 20
+
+
+state 17
+
+    6 statement: if_statement .
+
+    $default  reduce using rule 6 (statement)
+
+
+state 18
+
+    8 statement: while_statement .
+
+    $default  reduce using rule 8 (statement)
+
+
+state 19
+
+    7 statement: for_statement .
+
+    $default  reduce using rule 7 (statement)
+
+
+state 20
+
+    9 statement: declaration_statement .
+
+    $default  reduce using rule 9 (statement)
+
+
+state 21
+
+   34 arithmetic_factor: LIT_INT .
+
+    $default  reduce using rule 34 (arithmetic_factor)
+
+
+state 22
+
+   33 arithmetic_factor: IDENTIFIER .
+
+    $default  reduce using rule 33 (arithmetic_factor)
+
+
+state 23
+
+   35 relational_expression: arithmetic_expression . relational_operator arithmetic_expression relational_expression_prime
+
+    REL_GRTR_EQ  shift, and go to state 36
+    REL_LESS_EQ  shift, and go to state 37
+    REL_GRTR     shift, and go to state 38
+    REL_LESS     shift, and go to state 39
+    REL_EQ       shift, and go to state 40
+    REL_NOT_EQ   shift, and go to state 41
+
+    relational_operator  go to state 42
+
+
+state 24
+
+   24 arithmetic_expression: arithmetic_term . arithmetic_expression_prime
+
+    ARI_ADD  shift, and go to state 43
+    ARI_SUB  shift, and go to state 44
+
+    $default  reduce using rule 27 (arithmetic_expression_prime)
+
+    arithmetic_expression_prime  go to state 45
+
+
+state 25
+
+   28 arithmetic_term: arithmetic_factor . arithmetic_term_prime
+
+    ARI_DIV  shift, and go to state 46
+    ARI_MOD  shift, and go to state 47
+    ARI_MUL  shift, and go to state 48
+
+    $default  reduce using rule 32 (arithmetic_term_prime)
+
+    arithmetic_term_prime  go to state 49
+
+
+state 26
+
+   47 logical_term: relational_expression .
+
+    $default  reduce using rule 47 (logical_term)
+
+
+state 27
+
+   50 conditions: logical_expression .
+
+    $default  reduce using rule 50 (conditions)
+
+
+state 28
+
+   44 logical_expression: logical_term . logical_expression_prime
+
+    LOG_AND  shift, and go to state 50
+    LOG_OR   shift, and go to state 51
+
+    $default  reduce using rule 46 (logical_expression_prime)
+
+    logical_expression_prime  go to state 52
+    logical_operator          go to state 53
+
+
+state 29
+
+   17 while_statement: KEY_WHILE conditions . KEY_DO inner_statement SEMICOLON
+
+    KEY_DO  shift, and go to state 54
+
+
+state 30
+
+   18 for_statement: KEY_FOR arithmetic_expression . KEY_TO arithmetic_expression KEY_DO inner_statement KEY_STEP arithmetic_expression KEY_END SEMICOLON
+
+    KEY_TO  shift, and go to state 55
+
+
+state 31
+
+   12 if_statement: KEY_IF conditions . KEY_THEN inner_statement SEMICOLON elseif_statements
+
+    KEY_THEN  shift, and go to state 56
+
+
+state 32
+
+   19 declaration_statement: KEY_DECLARE COLON . KEY_DATATYPE COLON IDENTIFIER ASSIGN assignment_value SEMICOLON
+
+    KEY_DATATYPE  shift, and go to state 57
+
+
+state 33
+
+    2 class: KEY_CLASS DEL_BRCKT_OP IDENTIFIER DEL_BRCKT_CL DEL_CURLY_OP statements DEL_CURLY_CL .
+
+    $default  reduce using rule 2 (class)
+
+
+state 34
+
+    3 statements: statement statements_prime .
+
+    $default  reduce using rule 3 (statements)
+
+
+state 35
+
+    4 statements_prime: statement . statements_prime
+
+    KEY_WHILE    shift, and go to state 11
+    KEY_FOR      shift, and go to state 12
+    KEY_IF       shift, and go to state 13
+    KEY_DECLARE  shift, and go to state 14
+
+    $default  reduce using rule 5 (statements_prime)
+
+    statements_prime       go to state 58
+    statement              go to state 35
+    if_statement           go to state 17
+    while_statement        go to state 18
+    for_statement          go to state 19
+    declaration_statement  go to state 20
+
+
+state 36
+
+   38 relational_operator: REL_GRTR_EQ .
+
+    $default  reduce using rule 38 (relational_operator)
+
+
+state 37
+
+   39 relational_operator: REL_LESS_EQ .
+
+    $default  reduce using rule 39 (relational_operator)
+
+
+state 38
+
+   41 relational_operator: REL_GRTR .
+
+    $default  reduce using rule 41 (relational_operator)
+
+
+state 39
+
+   40 relational_operator: REL_LESS .
+
+    $default  reduce using rule 40 (relational_operator)
+
+
+state 40
+
+   42 relational_operator: REL_EQ .
+
+    $default  reduce using rule 42 (relational_operator)
+
+
+state 41
+
+   43 relational_operator: REL_NOT_EQ .
+
+    $default  reduce using rule 43 (relational_operator)
+
+
+state 42
+
+   35 relational_expression: arithmetic_expression relational_operator . arithmetic_expression relational_expression_prime
+
+    LIT_INT     shift, and go to state 21
+    IDENTIFIER  shift, and go to state 22
+
+    arithmetic_expression  go to state 59
+    arithmetic_term        go to state 24
+    arithmetic_factor      go to state 25
+
+
+state 43
+
+   25 arithmetic_expression_prime: ARI_ADD . arithmetic_term arithmetic_expression_prime
+
+    LIT_INT     shift, and go to state 21
+    IDENTIFIER  shift, and go to state 22
+
+    arithmetic_term    go to state 60
+    arithmetic_factor  go to state 25
+
+
+state 44
+
+   26 arithmetic_expression_prime: ARI_SUB . arithmetic_term arithmetic_expression_prime
+
+    LIT_INT     shift, and go to state 21
+    IDENTIFIER  shift, and go to state 22
+
+    arithmetic_term    go to state 61
+    arithmetic_factor  go to state 25
+
+
+state 45
+
+   24 arithmetic_expression: arithmetic_term arithmetic_expression_prime .
+
+    $default  reduce using rule 24 (arithmetic_expression)
+
+
+state 46
+
+   31 arithmetic_term_prime: ARI_DIV . arithmetic_factor arithmetic_term_prime
+
+    LIT_INT     shift, and go to state 21
+    IDENTIFIER  shift, and go to state 22
+
+    arithmetic_factor  go to state 62
+
+
+state 47
+
+   30 arithmetic_term_prime: ARI_MOD . arithmetic_factor arithmetic_term_prime
+
+    LIT_INT     shift, and go to state 21
+    IDENTIFIER  shift, and go to state 22
+
+    arithmetic_factor  go to state 63
+
+
+state 48
+
+   29 arithmetic_term_prime: ARI_MUL . arithmetic_factor arithmetic_term_prime
+
+    LIT_INT     shift, and go to state 21
+    IDENTIFIER  shift, and go to state 22
+
+    arithmetic_factor  go to state 64
+
+
+state 49
+
+   28 arithmetic_term: arithmetic_factor arithmetic_term_prime .
+
+    $default  reduce using rule 28 (arithmetic_term)
+
+
+state 50
+
+   48 logical_operator: LOG_AND .
+
+    $default  reduce using rule 48 (logical_operator)
+
+
+state 51
+
+   49 logical_operator: LOG_OR .
+
+    $default  reduce using rule 49 (logical_operator)
+
+
+state 52
+
+   44 logical_expression: logical_term logical_expression_prime .
+
+    $default  reduce using rule 44 (logical_expression)
+
+
+state 53
+
+   45 logical_expression_prime: logical_operator . logical_term logical_expression_prime
+
+    LIT_INT     shift, and go to state 21
+    IDENTIFIER  shift, and go to state 22
+
+    arithmetic_expression  go to state 23
+    arithmetic_term        go to state 24
+    arithmetic_factor      go to state 25
+    relational_expression  go to state 26
+    logical_term           go to state 65
+
+
+state 54
+
+   17 while_statement: KEY_WHILE conditions KEY_DO . inner_statement SEMICOLON
+
+    KEY_STORE   shift, and go to state 66
+    KEY_YIELD   shift, and go to state 67
+    IDENTIFIER  shift, and go to state 68
+
+    inner_statement       go to state 69
+    assignment_statement  go to state 70
+    store_method          go to state 71
+    yield_method          go to state 72
+    method_call           go to state 73
+
+
+state 55
+
+   18 for_statement: KEY_FOR arithmetic_expression KEY_TO . arithmetic_expression KEY_DO inner_statement KEY_STEP arithmetic_expression KEY_END SEMICOLON
+
+    LIT_INT     shift, and go to state 21
+    IDENTIFIER  shift, and go to state 22
+
+    arithmetic_expression  go to state 74
+    arithmetic_term        go to state 24
+    arithmetic_factor      go to state 25
+
+
+state 56
+
+   12 if_statement: KEY_IF conditions KEY_THEN . inner_statement SEMICOLON elseif_statements
+
+    KEY_STORE   shift, and go to state 66
+    KEY_YIELD   shift, and go to state 67
+    IDENTIFIER  shift, and go to state 68
+
+    inner_statement       go to state 75
+    assignment_statement  go to state 70
+    store_method          go to state 71
+    yield_method          go to state 72
+    method_call           go to state 73
+
+
+state 57
+
+   19 declaration_statement: KEY_DECLARE COLON KEY_DATATYPE . COLON IDENTIFIER ASSIGN assignment_value SEMICOLON
+
+    COLON  shift, and go to state 76
+
+
+state 58
+
+    4 statements_prime: statement statements_prime .
+
+    $default  reduce using rule 4 (statements_prime)
+
+
+state 59
+
+   35 relational_expression: arithmetic_expression relational_operator arithmetic_expression . relational_expression_prime
+
+    REL_GRTR_EQ  shift, and go to state 36
+    REL_LESS_EQ  shift, and go to state 37
+    REL_GRTR     shift, and go to state 38
+    REL_LESS     shift, and go to state 39
+    REL_EQ       shift, and go to state 40
+    REL_NOT_EQ   shift, and go to state 41
+
+    $default  reduce using rule 37 (relational_expression_prime)
+
+    relational_expression_prime  go to state 77
+    relational_operator          go to state 78
+
+
+state 60
+
+   25 arithmetic_expression_prime: ARI_ADD arithmetic_term . arithmetic_expression_prime
+
+    ARI_ADD  shift, and go to state 43
+    ARI_SUB  shift, and go to state 44
+
+    $default  reduce using rule 27 (arithmetic_expression_prime)
+
+    arithmetic_expression_prime  go to state 79
+
+
+state 61
+
+   26 arithmetic_expression_prime: ARI_SUB arithmetic_term . arithmetic_expression_prime
+
+    ARI_ADD  shift, and go to state 43
+    ARI_SUB  shift, and go to state 44
+
+    $default  reduce using rule 27 (arithmetic_expression_prime)
+
+    arithmetic_expression_prime  go to state 80
+
+
+state 62
+
+   31 arithmetic_term_prime: ARI_DIV arithmetic_factor . arithmetic_term_prime
+
+    ARI_DIV  shift, and go to state 46
+    ARI_MOD  shift, and go to state 47
+    ARI_MUL  shift, and go to state 48
+
+    $default  reduce using rule 32 (arithmetic_term_prime)
+
+    arithmetic_term_prime  go to state 81
+
+
+state 63
+
+   30 arithmetic_term_prime: ARI_MOD arithmetic_factor . arithmetic_term_prime
+
+    ARI_DIV  shift, and go to state 46
+    ARI_MOD  shift, and go to state 47
+    ARI_MUL  shift, and go to state 48
+
+    $default  reduce using rule 32 (arithmetic_term_prime)
+
+    arithmetic_term_prime  go to state 82
+
+
+state 64
+
+   29 arithmetic_term_prime: ARI_MUL arithmetic_factor . arithmetic_term_prime
+
+    ARI_DIV  shift, and go to state 46
+    ARI_MOD  shift, and go to state 47
+    ARI_MUL  shift, and go to state 48
+
+    $default  reduce using rule 32 (arithmetic_term_prime)
+
+    arithmetic_term_prime  go to state 83
+
+
+state 65
+
+   45 logical_expression_prime: logical_operator logical_term . logical_expression_prime
+
+    LOG_AND  shift, and go to state 50
+    LOG_OR   shift, and go to state 51
+
+    $default  reduce using rule 46 (logical_expression_prime)
+
+    logical_expression_prime  go to state 84
+    logical_operator          go to state 53
+
+
+state 66
+
+   51 store_method: KEY_STORE . DEL_PAREN_OP DEL_PAREN_CL
+
+    DEL_PAREN_OP  shift, and go to state 85
+
+
+state 67
+
+   52 yield_method: KEY_YIELD . DEL_PAREN_OP yield_param DEL_PAREN_CL
+
+    DEL_PAREN_OP  shift, and go to state 86
+
+
+state 68
+
+   20 assignment_statement: IDENTIFIER . ASSIGN assignment_value
+
+    ASSIGN  shift, and go to state 87
+
+
+state 69
+
+   17 while_statement: KEY_WHILE conditions KEY_DO inner_statement . SEMICOLON
+
+    SEMICOLON  shift, and go to state 88
+
+
+state 70
+
+   10 inner_statement: assignment_statement .
+
+    $default  reduce using rule 10 (inner_statement)
+
+
+state 71
+
+   55 method_call: store_method .
+
+    $default  reduce using rule 55 (method_call)
+
+
+state 72
+
+   56 method_call: yield_method .
+
+    $default  reduce using rule 56 (method_call)
+
+
+state 73
+
+   11 inner_statement: method_call .
+
+    $default  reduce using rule 11 (inner_statement)
+
+
+state 74
+
+   18 for_statement: KEY_FOR arithmetic_expression KEY_TO arithmetic_expression . KEY_DO inner_statement KEY_STEP arithmetic_expression KEY_END SEMICOLON
+
+    KEY_DO  shift, and go to state 89
+
+
+state 75
+
+   12 if_statement: KEY_IF conditions KEY_THEN inner_statement . SEMICOLON elseif_statements
+
+    SEMICOLON  shift, and go to state 90
+
+
+state 76
+
+   19 declaration_statement: KEY_DECLARE COLON KEY_DATATYPE COLON . IDENTIFIER ASSIGN assignment_value SEMICOLON
+
+    IDENTIFIER  shift, and go to state 91
+
+
+state 77
+
+   35 relational_expression: arithmetic_expression relational_operator arithmetic_expression relational_expression_prime .
+
+    $default  reduce using rule 35 (relational_expression)
+
+
+state 78
+
+   36 relational_expression_prime: relational_operator . arithmetic_expression relational_expression_prime
+
+    LIT_INT     shift, and go to state 21
+    IDENTIFIER  shift, and go to state 22
+
+    arithmetic_expression  go to state 92
+    arithmetic_term        go to state 24
+    arithmetic_factor      go to state 25
+
+
+state 79
+
+   25 arithmetic_expression_prime: ARI_ADD arithmetic_term arithmetic_expression_prime .
+
+    $default  reduce using rule 25 (arithmetic_expression_prime)
+
+
+state 80
+
+   26 arithmetic_expression_prime: ARI_SUB arithmetic_term arithmetic_expression_prime .
+
+    $default  reduce using rule 26 (arithmetic_expression_prime)
+
+
+state 81
+
+   31 arithmetic_term_prime: ARI_DIV arithmetic_factor arithmetic_term_prime .
+
+    $default  reduce using rule 31 (arithmetic_term_prime)
+
+
+state 82
+
+   30 arithmetic_term_prime: ARI_MOD arithmetic_factor arithmetic_term_prime .
+
+    $default  reduce using rule 30 (arithmetic_term_prime)
+
+
+state 83
+
+   29 arithmetic_term_prime: ARI_MUL arithmetic_factor arithmetic_term_prime .
+
+    $default  reduce using rule 29 (arithmetic_term_prime)
+
+
+state 84
+
+   45 logical_expression_prime: logical_operator logical_term logical_expression_prime .
+
+    $default  reduce using rule 45 (logical_expression_prime)
+
+
+state 85
+
+   51 store_method: KEY_STORE DEL_PAREN_OP . DEL_PAREN_CL
+
+    DEL_PAREN_CL  shift, and go to state 93
+
+
+state 86
+
+   52 yield_method: KEY_YIELD DEL_PAREN_OP . yield_param DEL_PAREN_CL
+
+    LIT_INT     shift, and go to state 21
+    LIT_STRING  shift, and go to state 94
+    IDENTIFIER  shift, and go to state 22
+
+    arithmetic_expression  go to state 95
+    arithmetic_term        go to state 24
+    arithmetic_factor      go to state 25
+    yield_param            go to state 96
+
+
+state 87
+
+   20 assignment_statement: IDENTIFIER ASSIGN . assignment_value
+
+    LIT_INT     shift, and go to state 97
+    KEY_STORE   shift, and go to state 66
+    IDENTIFIER  shift, and go to state 22
+
+    assignment_value       go to state 98
+    arithmetic_expression  go to state 99
+    arithmetic_term        go to state 24
+    arithmetic_factor      go to state 25
+    store_method           go to state 100
+
+
+state 88
+
+   17 while_statement: KEY_WHILE conditions KEY_DO inner_statement SEMICOLON .
+
+    $default  reduce using rule 17 (while_statement)
+
+
+state 89
+
+   18 for_statement: KEY_FOR arithmetic_expression KEY_TO arithmetic_expression KEY_DO . inner_statement KEY_STEP arithmetic_expression KEY_END SEMICOLON
+
+    KEY_STORE   shift, and go to state 66
+    KEY_YIELD   shift, and go to state 67
+    IDENTIFIER  shift, and go to state 68
+
+    inner_statement       go to state 101
+    assignment_statement  go to state 70
+    store_method          go to state 71
+    yield_method          go to state 72
+    method_call           go to state 73
+
+
+state 90
+
+   12 if_statement: KEY_IF conditions KEY_THEN inner_statement SEMICOLON . elseif_statements
+
+    KEY_ELSEIF  shift, and go to state 102
+
+    elseif_statements  go to state 103
+    elseif_statement   go to state 104
+
+
+state 91
+
+   19 declaration_statement: KEY_DECLARE COLON KEY_DATATYPE COLON IDENTIFIER . ASSIGN assignment_value SEMICOLON
+
+    ASSIGN  shift, and go to state 105
+
+
+state 92
+
+   36 relational_expression_prime: relational_operator arithmetic_expression . relational_expression_prime
+
+    REL_GRTR_EQ  shift, and go to state 36
+    REL_LESS_EQ  shift, and go to state 37
+    REL_GRTR     shift, and go to state 38
+    REL_LESS     shift, and go to state 39
+    REL_EQ       shift, and go to state 40
+    REL_NOT_EQ   shift, and go to state 41
+
+    $default  reduce using rule 37 (relational_expression_prime)
+
+    relational_expression_prime  go to state 106
+    relational_operator          go to state 78
+
+
+state 93
+
+   51 store_method: KEY_STORE DEL_PAREN_OP DEL_PAREN_CL .
+
+    $default  reduce using rule 51 (store_method)
+
+
+state 94
+
+   54 yield_param: LIT_STRING .
+
+    $default  reduce using rule 54 (yield_param)
+
+
+state 95
+
+   53 yield_param: arithmetic_expression .
+
+    $default  reduce using rule 53 (yield_param)
+
+
+state 96
+
+   52 yield_method: KEY_YIELD DEL_PAREN_OP yield_param . DEL_PAREN_CL
+
+    DEL_PAREN_CL  shift, and go to state 107
+
+
+state 97
+
+   21 assignment_value: LIT_INT .
+   34 arithmetic_factor: LIT_INT .
+
+    KEY_STEP   reduce using rule 21 (assignment_value)
+    KEY_STEP   [reduce using rule 34 (arithmetic_factor)]
+    SEMICOLON  reduce using rule 21 (assignment_value)
+    SEMICOLON  [reduce using rule 34 (arithmetic_factor)]
+    $default   reduce using rule 34 (arithmetic_factor)
+
+
+state 98
+
+   20 assignment_statement: IDENTIFIER ASSIGN assignment_value .
+
+    $default  reduce using rule 20 (assignment_statement)
+
+
+state 99
+
+   22 assignment_value: arithmetic_expression .
+
+    $default  reduce using rule 22 (assignment_value)
+
+
+state 100
+
+   23 assignment_value: store_method .
+
+    $default  reduce using rule 23 (assignment_value)
+
+
+state 101
+
+   18 for_statement: KEY_FOR arithmetic_expression KEY_TO arithmetic_expression KEY_DO inner_statement . KEY_STEP arithmetic_expression KEY_END SEMICOLON
+
+    KEY_STEP  shift, and go to state 108
+
+
+state 102
+
+   16 elseif_statement: KEY_ELSEIF . conditions KEY_THEN inner_statement SEMICOLON
+
+    LIT_INT     shift, and go to state 21
+    IDENTIFIER  shift, and go to state 22
+
+    arithmetic_expression  go to state 23
+    arithmetic_term        go to state 24
+    arithmetic_factor      go to state 25
+    relational_expression  go to state 26
+    logical_expression     go to state 27
+    logical_term           go to state 28
+    conditions             go to state 109
+
+
+state 103
+
+   12 if_statement: KEY_IF conditions KEY_THEN inner_statement SEMICOLON elseif_statements .
+
+    $default  reduce using rule 12 (if_statement)
+
+
+state 104
+
+   13 elseif_statements: elseif_statement . elseif_statements_prime
+
+    KEY_ELSEIF  shift, and go to state 102
+
+    $default  reduce using rule 15 (elseif_statements_prime)
+
+    elseif_statements_prime  go to state 110
+    elseif_statement         go to state 111
+
+
+state 105
+
+   19 declaration_statement: KEY_DECLARE COLON KEY_DATATYPE COLON IDENTIFIER ASSIGN . assignment_value SEMICOLON
+
+    LIT_INT     shift, and go to state 97
+    KEY_STORE   shift, and go to state 66
+    IDENTIFIER  shift, and go to state 22
+
+    assignment_value       go to state 112
+    arithmetic_expression  go to state 99
+    arithmetic_term        go to state 24
+    arithmetic_factor      go to state 25
+    store_method           go to state 100
+
+
+state 106
+
+   36 relational_expression_prime: relational_operator arithmetic_expression relational_expression_prime .
+
+    $default  reduce using rule 36 (relational_expression_prime)
+
+
+state 107
+
+   52 yield_method: KEY_YIELD DEL_PAREN_OP yield_param DEL_PAREN_CL .
+
+    $default  reduce using rule 52 (yield_method)
+
+
+state 108
+
+   18 for_statement: KEY_FOR arithmetic_expression KEY_TO arithmetic_expression KEY_DO inner_statement KEY_STEP . arithmetic_expression KEY_END SEMICOLON
+
+    LIT_INT     shift, and go to state 21
+    IDENTIFIER  shift, and go to state 22
+
+    arithmetic_expression  go to state 113
+    arithmetic_term        go to state 24
+    arithmetic_factor      go to state 25
+
+
+state 109
+
+   16 elseif_statement: KEY_ELSEIF conditions . KEY_THEN inner_statement SEMICOLON
+
+    KEY_THEN  shift, and go to state 114
+
+
+state 110
+
+   13 elseif_statements: elseif_statement elseif_statements_prime .
+
+    $default  reduce using rule 13 (elseif_statements)
+
+
+state 111
+
+   14 elseif_statements_prime: elseif_statement . elseif_statements_prime
+
+    KEY_ELSEIF  shift, and go to state 102
+
+    $default  reduce using rule 15 (elseif_statements_prime)
+
+    elseif_statements_prime  go to state 115
+    elseif_statement         go to state 111
+
+
+state 112
+
+   19 declaration_statement: KEY_DECLARE COLON KEY_DATATYPE COLON IDENTIFIER ASSIGN assignment_value . SEMICOLON
+
+    SEMICOLON  shift, and go to state 116
+
+
+state 113
+
+   18 for_statement: KEY_FOR arithmetic_expression KEY_TO arithmetic_expression KEY_DO inner_statement KEY_STEP arithmetic_expression . KEY_END SEMICOLON
+
+    KEY_END  shift, and go to state 117
+
+
+state 114
+
+   16 elseif_statement: KEY_ELSEIF conditions KEY_THEN . inner_statement SEMICOLON
+
+    KEY_STORE   shift, and go to state 66
+    KEY_YIELD   shift, and go to state 67
+    IDENTIFIER  shift, and go to state 68
+
+    inner_statement       go to state 118
+    assignment_statement  go to state 70
+    store_method          go to state 71
+    yield_method          go to state 72
+    method_call           go to state 73
+
+
+state 115
+
+   14 elseif_statements_prime: elseif_statement elseif_statements_prime .
+
+    $default  reduce using rule 14 (elseif_statements_prime)
+
+
+state 116
+
+   19 declaration_statement: KEY_DECLARE COLON KEY_DATATYPE COLON IDENTIFIER ASSIGN assignment_value SEMICOLON .
+
+    $default  reduce using rule 19 (declaration_statement)
+
+
+state 117
+
+   18 for_statement: KEY_FOR arithmetic_expression KEY_TO arithmetic_expression KEY_DO inner_statement KEY_STEP arithmetic_expression KEY_END . SEMICOLON
+
+    SEMICOLON  shift, and go to state 119
+
+
+state 118
+
+   16 elseif_statement: KEY_ELSEIF conditions KEY_THEN inner_statement . SEMICOLON
+
+    SEMICOLON  shift, and go to state 120
+
+
+state 119
+
+   18 for_statement: KEY_FOR arithmetic_expression KEY_TO arithmetic_expression KEY_DO inner_statement KEY_STEP arithmetic_expression KEY_END SEMICOLON .
+
+    $default  reduce using rule 18 (for_statement)
+
+
+state 120
+
+   16 elseif_statement: KEY_ELSEIF conditions KEY_THEN inner_statement SEMICOLON .
+
+    $default  reduce using rule 16 (elseif_statement)

@@ -35,17 +35,22 @@
 "is=="	return REL_EQ;
 "is!="	return REL_NOT_EQ;
 
-"="	return ASSIGN;
+"is="	return ASSIGN;
 
 "&&"	return LOG_AND;
 "||"	return LOG_OR;
-"!"		return LOG_NOT;
 
 "while" return KEY_WHILE;
 "for"	return KEY_FOR;
+"end"	return KEY_END;
+"step"	return KEY_STEP;
+"to"	return KEY_TO;
+"do"	return KEY_DO;
 
 "if"		return KEY_IF;
+"else if"	return KEY_ELSEIF;
 "else"		return KEY_ELSE;
+"then"		return KEY_THEN;
 
 "declare"	return KEY_DECLARE;
 "store"		return KEY_STORE;
@@ -56,11 +61,12 @@
 
 ";"	return SEMICOLON;
 ":"	return COLON;
+","	return COMMA;
 
 [a-zA-Z$_][a-zA-Z0-9]*	return IDENTIFIER;
 
 [ \t\n]+	; //WHITESPACE
-.	;	//GREEDY
+.	return ANTITOKEN;	//GREEDY
 
 %% //---token definition end
 
