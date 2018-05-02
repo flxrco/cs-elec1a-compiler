@@ -1,4 +1,4 @@
-program	:	DEL_CODE_OP class DEL_CODE_CL {printf("Parsing successful."); return 1;}
+program	:	DEL_CODE_OP class DEL_CODE_CL
 
 class	:	KEY_CLASS DEL_BRCKT_OP IDENTIFIER DEL_BRCKT_CL DEL_CURLY_OP statements DEL_CURLY_CL
 

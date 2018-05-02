@@ -3,8 +3,8 @@ class [KatsProgram] {
 trisha is= -7 + -2;
 david is= store();
 yield("grizzly bear"); $comment$
-yield("panda bear");
-yield("ice bear");
+yield("panda bear")
+yield("ice bear")
 declare: Integer: wan is= 1;
 for trish to 100 do wanmyg is= wanmyg + trish step 5 end;
 if wanmyg is> 5 then wanmyg is= 2; else if 5 is!= 5 && david is== wanmyg || wanmyg is> 5 then wanmyg is= wanmyg / 0;
