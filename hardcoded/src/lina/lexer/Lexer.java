@@ -25,7 +25,11 @@ public class Lexer {
 		}
 	}
 
-	public static List<Token> tokenize(List<Line> lines) {
+	public static List<Token> tokenize(String path) throws IOException {
+		return tokenize(convertLines(path));
+	}
+
+	private static List<Token> tokenize(List<Line> lines) {
 		List<Token> tokens = new ArrayList<>();
 
 		for (Line line : lines) {
