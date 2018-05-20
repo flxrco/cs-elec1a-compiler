@@ -61,12 +61,11 @@ public enum TokenType {
 	COLON(":", "colon"),
 	COMMA(",", "comma"),
 
-	IDENTIFIER(null, "identifier"),
-	ANTITOKEN(null, "antitoken");
+	IDENTIFIER(null, "identifier");
 
 	private final String pattern, label;
 
-	public TokenType(String pattern, String label) {
+	private TokenType(String pattern, String label) {
 		this.pattern = pattern;
 		this.label = label;
 	}
@@ -82,5 +81,9 @@ public enum TokenType {
 	@Override
 	public String toString() {
 		return getLabel();
+	}
+
+	public String toChar() {
+		return.getPattern().charAt(0);
 	}
 }
