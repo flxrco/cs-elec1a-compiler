@@ -1,4 +1,4 @@
-package lina.lexer;
+package lina.lexer.tokenizer;
 
 public class Token {
 	private TokenType type;

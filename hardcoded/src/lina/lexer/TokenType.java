@@ -1,4 +1,4 @@
-package lina.lexer;
+package lina.lexer.tokenizer;
 
 public enum TokenType {
 	LIT_INT(null, "integer literal"),
@@ -26,7 +26,7 @@ public enum TokenType {
 	ARI_MUL("*", "multiplication operator"),
 
 	REL_GRTR_EQ("is>=", "greater than or equal to"),
-	REL_LESS_EQ("is<= less than or equal to"),
+	REL_LESS_EQ("is<=", "less than or equal to"),
 	REL_GRTR("is>", "greater than"),
 	REL_LESS("is<", "less than"),
 	REL_EQ("is==", "equal to"),
@@ -83,7 +83,7 @@ public enum TokenType {
 		return getLabel();
 	}
 
-	public String toChar() {
-		return.getPattern().charAt(0);
+	public char toChar() {
+		return getPattern().charAt(0);
 	}
 }
