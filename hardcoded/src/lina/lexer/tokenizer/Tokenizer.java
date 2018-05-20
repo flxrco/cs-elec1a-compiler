@@ -3,12 +3,12 @@ package lina.lexer.tokenizer;
 import java.util.List;
 import java.util.ArrayList;
 
-class Tokenizer {
+public class Tokenizer {
 	private static final char EOL = '\0'; //stands for 'end of line'
 
-	proteted Token nextToken(Line line) {
-		ignoreComments(line);
+	public static Token nextToken(Line line) {
 		ignoreWhitespace(line);
+		ignoreComments(line);
 		
 		Token cache = null;
 
@@ -29,13 +29,11 @@ class Tokenizer {
 		}
 	}
 
-	private void ignoreComments(Line line) {
+	private static void ignoreComments(Line line) {
 		if (line.getChar() == '$') { //confirms that the current character in the line is $
-
 			while (line.peekNext() != EOL && line.peekNext() != '$') { //stops if the next character is the end of line or another $
-				//do nothing 
+				line.increment();
 			}
-
 			if (line.peekNext() == '$') {
 				line.increment(); //makes the current character the $ character
 				line.increment(); //makes the current character whatever is next to $
@@ -45,13 +43,13 @@ class Tokenizer {
 		}
 	}
 
-	private void ignoreWhitespace(Line line) {
+	private static void ignoreWhitespace(Line line) {
 		while (Character.isWhitespace(line.getChar())) {
 			line.increment();
 		}
 	}
 
-	private Token checkKeyword(Line line) {
+	private static Token checkKeyword(Line line) {
 		int index = line.getIndex();
 
 		TokenType[] types = { //an array containing all of the keywords in TokenType
@@ -64,7 +62,8 @@ class Tokenizer {
 		for (TokenType type : types) { //iterate through the array one by one and check if the remaining items in line matches them
 			String pattern = type.getPattern();
 			if (line.startsWith(pattern)) {
-				if (Character.isWhitespace(line.getChar(pattern.length() + 1))) { //checks if the next character after the prefix is a whitespace
+				if (!Character.isLetter(line.getChar(pattern.length())) && !Character.isDigit(line.getChar(pattern.length()))) { //checks if the next character after the prefix is a whitespace
+					line.setIndex(index);
 					return line.tokenize(type); //tokenizes the lexeme minus the whitespace after the prefix
 				}
 			}
@@ -74,15 +73,17 @@ class Tokenizer {
 		return null; //return null if there are no next matches
 	}
 
-	private Token checkInteger(Line line) {
+	private static Token checkInteger(Line line) {
 		int index = line.getIndex();
 
 		if (Character.isDigit(line.getChar())) {
 			int length = 1;
 			while (Character.isDigit(line.peekNext())) {
 				length++;
+				line.increment();
 			}
 
+			line.setIndex(index);
 			return line.tokenize(TokenType.LIT_INT, length);
 		}
 
@@ -90,7 +91,7 @@ class Tokenizer {
 		return null;
 	}
 
-	private Token checkString(Line line) {
+	private static Token checkString(Line line) {
 		int index = line.getIndex();
 
 		if (line.getChar() == '"') {
@@ -98,12 +99,13 @@ class Tokenizer {
 			
 			while (line.peekNext() != EOL && line.peekNext() != '"') {
 				length++;
+				line.increment();
 			}
 
 			if (line.peekNext() == '"') {
 				line.increment(); //makes the current character the " character
 				length++;
-
+				line.setIndex(index);
 				return line.tokenize(TokenType.LIT_STRING, length); //return the entire string including the double quotes
 			} else if (line.peekNext() == EOL) {
 
@@ -116,29 +118,25 @@ class Tokenizer {
 		return null;
 	}
 
-	private Token checkIdentifier(Line line) {
+	private static Token checkIdentifier(Line line) {
 		int index = line.getIndex();
-
 		if (Character.isLetter(line.getChar()) || line.getChar() == '_' || line.getChar() == '$') {
 			int length = 1;
 
 			while(Character.isLetter(line.peekNext()) || Character.isDigit(line.peekNext())) {
 				length++;
+				line.increment();
 			}
 
-			if (Character.isWhitespace(line.peekNext())) {
-				return line.tokenize(TokenType.IDENTIFIER, length);
-
-			} else {
-				return null;
-			}
+			line.setIndex(index);
+			return line.tokenize(TokenType.IDENTIFIER, length);
 		}
 
 		line.setIndex(index);
 		return null;
 	}
 
-	private Token checkOperator(Line line) {
+	private static Token checkOperator(Line line) {
 		int index = line.getIndex();
 
 		TokenType[] types = { //an array containing all of the operators in TokenType
@@ -151,6 +149,7 @@ class Tokenizer {
 		for (TokenType type : types) { //iterate through the array one by one and check if the remaining items in line matches them
 			String pattern = type.getPattern();
 			if (line.startsWith(pattern)) {
+				line.setIndex(index);
 				return line.tokenize(type);
 			}
 		}
@@ -159,7 +158,7 @@ class Tokenizer {
 		return null;
 	}
 
-	private Token checkSymbol(Line line) {
+	private static Token checkSymbol(Line line) {
 		int index = line.getIndex();
 
 		TokenType[] types = { //an array containing all of the symbols in TokenType
@@ -173,6 +172,7 @@ class Tokenizer {
 		for (TokenType type : types) { //iterate through the array one by one and check if the remaining items in line matches them
 			String pattern = type.getPattern();
 			if (line.startsWith(pattern)) {
+				line.setIndex(index);
 				return line.tokenize(type);
 			}
 		}

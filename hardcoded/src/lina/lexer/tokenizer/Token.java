@@ -32,4 +32,9 @@ public class Token {
 	public int endCol() {
 		return endCol;
 	}
+
+	@Override
+	public String toString() {
+		return String.format("%s -> %s\nLn %d, Col %d-%d\n", lexeme, type.getLabel(), lineNo, startCol, endCol);
+	}
 }

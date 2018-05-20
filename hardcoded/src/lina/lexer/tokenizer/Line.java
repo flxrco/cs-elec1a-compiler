@@ -27,12 +27,8 @@ public class Line {
 	}
 
 	public boolean setIndex(int index) {
-		if (index >= 0 && index < content.length()) {
-			this.index = index;
-			return true;
-		} else {
-			return false;
-		}
+		this.index = index;
+		return index >= 0 && index < content.length();
 	}
 
 	public boolean increment() {
@@ -78,9 +74,10 @@ public class Line {
 	}
 
 	public Token tokenize(TokenType type, int lexemeLength) {
-		int end = index + lexemeLength - 1;
+		int end = index + lexemeLength;
+		Token token = new Token(type, content.substring(index, end), lineNo, index, end - 1);
 		index += lexemeLength;
-		return new Token(type, content.substring(index, end), lineNo, index, end);
+		return token;
 	}
 
 	public Token tokenize(TokenType type) {
