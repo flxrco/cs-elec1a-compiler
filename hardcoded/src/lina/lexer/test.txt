@@ -1,5 +1,0 @@
-"a paranoid man makes paranoid plans"
-//:
-class [KatsProgram] {
-trisha is= -7 + -2;
-david is= store();

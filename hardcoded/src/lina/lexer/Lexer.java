@@ -11,22 +11,26 @@ import lina.lexer.tokenizer.*;
 
 public class Lexer {
 
-	public static void main(String args[]) {
+	public static void main(String args[])  {
 		try {
-			List<Line> lines = convertLines(args[0]);
-			List<Token> tokens = tokenize(lines);
+			TokenStream stream = analyze(args[0]);
 
-			for (Token token : tokens) {
-				System.out.println(token.toString());
-			}
-
+			System.out.println(stream.linesToString());
+			System.out.println(stream.tokensToString());
+			
 		} catch (IOException ex) {
 			System.out.println(ex.getMessage());
-		}
+		} 
+
 	}
 
-	public static List<Token> tokenize(String path) throws IOException {
-		return tokenize(convertLines(path));
+	public static TokenStream analyze(String path) throws IOException {
+		return analyze(readLines(path));
+	}
+
+	private static TokenStream analyze(List<String> stringLines) {
+		List<Line> lines = convertLines(stringLines);
+		return new TokenStream(tokenize(lines), stringLines);
 	}
 
 	private static List<Token> tokenize(List<Line> lines) {
@@ -46,14 +50,10 @@ public class Lexer {
 		List<Line> results = new ArrayList<>();
 
 		for (int i = 0; i < lines.size(); i++) {
-			results.add(new Line(lines.get(i), i + 1));
+			results.add(new Line(lines.get(i), i));
 		}
 
 		return results;
-	}
-
-	private static List<Line> convertLines(String path) throws IOException {
-		return convertLines(readLines(path));
 	}
 
 	private static List<String> readLines(String path) throws IOException {
