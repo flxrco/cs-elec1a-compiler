@@ -1,23 +1,19 @@
 package lina.parser.cfg;
 
+import lina.lexer.tokenizer.Token;
 import lina.lexer.tokenizer.TokenType;
+import lina.lexer.TokenStream;
 
 public class Terminal implements CFGNode {
 
-	private String parseFail;
 	private TokenType type;
 
-	private Terminal(TokenType type, String parseFail) {
+	public Terminal(TokenType type) {
 		this.type = type;
-		this.parseFail = parseFail;
 	}
 
 	public TokenType getType() {
 		return type;
-	}
-
-	public String parseFail() {
-		return parseFail;
 	}
 
 	public boolean compareType(Token token) {
@@ -28,17 +24,21 @@ public class Terminal implements CFGNode {
 		}
 	}
 
-	protected boolean lookAhead(TokenStream stream) {
+	public boolean lookAhead(TokenStream stream) {
 		return compareType(stream.peek());
 	}
 
 	@Override
-	protected boolean parse(TokenStream stream) {
+	public boolean parse(TokenStream stream) {
 		if (compareType(stream.peek())) {
-			stream.poll()
+			if (type != TokenType.EPSILON) {
+				stream.poll();
+			}
 			return true;
 		} else {
-			//record the error
+			System.out.println(String.format("Parse failure: Expected %s but instead saw %s", type.getPattern(), stream.peek().getType().getPattern()));
+			System.out.println();
+			System.out.println(stream.getLocation(stream.peek()));
 			return false;
 		}
 	}

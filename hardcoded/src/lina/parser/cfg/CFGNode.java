@@ -4,7 +4,7 @@ import lina.lexer.TokenStream;
 
 public interface CFGNode {
 
-	protected boolean parse(TokenStream stream);
+	public boolean parse(TokenStream stream);
 
-	protected boolean lookAhead(TokenStream stream);
+	public boolean lookAhead(TokenStream stream);
 }

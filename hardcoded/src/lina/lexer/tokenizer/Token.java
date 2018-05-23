@@ -37,7 +37,7 @@ public class Token {
 		return endCol;
 	}
 
-	public String getLocation() {
+	public String getCoordinates() {
 		return String.format("Ln %d, Col %d-%d\n", lineNo + 1, startCol + 1, endCol + 1);
 	}
 
@@ -45,8 +45,12 @@ public class Token {
 		return type.getLabel();
 	}
 
+	public boolean compareType(TokenType type) {
+		return this.type == type;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("%s -> %s\n%s", lexeme, type.getLabel(), getLocation());
+		return String.format("%s -> %s\n%s", lexeme, type.getLabel(), getCoordinates());
 	}
 }

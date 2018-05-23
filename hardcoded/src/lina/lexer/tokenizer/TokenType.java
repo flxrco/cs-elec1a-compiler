@@ -1,8 +1,8 @@
 package lina.lexer.tokenizer;
 
 public enum TokenType {
-	LIT_INT(null, "integer literal"),
-	LIT_STRING(null, "string literal"),
+	LIT_INT("integer", "integer literal"),
+	LIT_STRING("string", "string literal"),
 
 	DEL_CODE_OP("//:", "open code block"),
 	DEL_CODE_CL(":/", "closed code block"),
@@ -45,7 +45,7 @@ public enum TokenType {
 	KEY_DO("do", "do keyword"),
 
 	KEY_IF("if", "if keyword"),
-	KEY_ELSEIF("elseif", "else if keyword"),
+	KEY_ELSEIF("else if", "else if keyword"),
 	KEY_ELSE("else", "else keyword"),
 	KEY_THEN("then", "then keyword"),
 
@@ -61,7 +61,9 @@ public enum TokenType {
 	COLON(":", "colon"),
 	COMMA(",", "comma"),
 
-	IDENTIFIER(null, "identifier");
+	IDENTIFIER("identifier", "identifier"),
+
+	EPSILON("EPSILON", "EPSILON");
 
 	private final String pattern, label;
 
@@ -81,9 +83,5 @@ public enum TokenType {
 	@Override
 	public String toString() {
 		return getLabel();
-	}
-
-	public char toChar() {
-		return getPattern().charAt(0);
 	}
 }
