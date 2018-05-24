@@ -23,26 +23,21 @@ public class TokenStream {
 	}
 
 	public String getPointer(Token token) {
-		String line = lines.get(token.getLineNo()), lineNo = String.format("%d: ", token.getLineNo() + 1);
-		int offsetStart = token.getStartCol() + lineNo.length(), 
-			offsetEnd = token.getEndCol() + lineNo.length(),
-			offsetLength = line.length() + lineNo.length();
+		return getPointer(token, "");
+	}
+
+	public String getPointer(Token token, String buffer) {
+		String line = lines.get(token.getLineNo());
+		int len = line.length() + buffer.length(), start = token.getStartCol() + buffer.length(), end = token.getEndCol() + buffer.length();
 
 		StringBuilder str = new StringBuilder();
-		str.append(lineNo).append(line).append("\n");
+		str.append(buffer).append(line).append("\n");
 
-		for (int i = 0; i < offsetLength; i++) {
-			if (i == offsetStart) {
-				str.append("^");
-			} else if (i < offsetStart) {
-				str.append(" ");
-			} else {
-				break;
-			}
+		for (int i = 0; i < len; i++) {
+			str.append(i == start ? "^" : " ");
 		}
 
 		str.append("\n");
-
 		return str.toString();
 	}
 

@@ -1,8 +1,8 @@
 package lina.lexer.tokenizer;
 
 public enum TokenType {
-	LIT_INT("integer", "integer literal"),
-	LIT_STRING("string", "string literal"),
+	LIT_INT("<integer>", "integer literal"),
+	LIT_STRING("<string>", "string literal"),
 
 	DEL_CODE_OP("//:", "open code block"),
 	DEL_CODE_CL(":/", "closed code block"),
@@ -61,7 +61,7 @@ public enum TokenType {
 	COLON(":", "colon"),
 	COMMA(",", "comma"),
 
-	IDENTIFIER("identifier", "identifier"),
+	IDENTIFIER("<identifier>", "identifier"),
 
 	EPSILON("EPSILON", "EPSILON");
 

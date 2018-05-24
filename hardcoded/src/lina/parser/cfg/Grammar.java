@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import lina.lexer.TokenStream;
 import lina.lexer.tokenizer.TokenType;
+import lina.parser.parsetree.ParseNode;
 
 public class Grammar {
 
@@ -22,8 +23,15 @@ public class Grammar {
 		ruleCache = new ArrayList<>();
 	}
 
-	public boolean parse(TokenStream stream) {
-		return head.parse(stream);
+	public ParseNode parse(TokenStream stream) {
+		List<String> errors = new ArrayList<>();
+		ParseNode node =  head.parse(stream, errors);
+
+		for (String err : errors) {
+			System.out.println(err);
+		}
+
+		return errors.size() == 0 ? node : null;
 	}
 
 	public void addProduction(String name, Object... rules) {

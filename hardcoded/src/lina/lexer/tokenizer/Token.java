@@ -21,7 +21,7 @@ public class Token {
 		return type;
 	}
 
-	public String getLexme() {
+	public String getLexeme() {
 		return lexeme;
 	}
 
@@ -38,7 +38,7 @@ public class Token {
 	}
 
 	public String getCoordinates() {
-		return String.format("Ln %d, Col %d-%d\n", lineNo + 1, startCol + 1, endCol + 1);
+		return String.format("ln %d, col %d-%d\n", lineNo + 1, startCol + 1, endCol + 1);
 	}
 
 	public String getTypeLabel() {

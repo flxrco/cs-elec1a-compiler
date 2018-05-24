@@ -1,8 +1,13 @@
 package lina.parser.cfg;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import lina.lexer.tokenizer.Token;
 import lina.lexer.tokenizer.TokenType;
 import lina.lexer.TokenStream;
+import lina.parser.parsetree.ParseNode;
+import lina.parser.parsetree.ParseTerminal;
 
 public class Terminal implements CFGNode {
 
@@ -29,18 +34,28 @@ public class Terminal implements CFGNode {
 	}
 
 	@Override
-	public boolean parse(TokenStream stream) {
-		if (compareType(stream.peek())) {
+	public ParseNode parse(TokenStream stream, List<String> errors) {
+		Token tok = stream.peek();
+
+		ParseTerminal node = new ParseTerminal(tok);
+
+		if (!compareType(tok)) {
+			StringBuilder str = new StringBuilder();
+			str.append(String.format("%d: %s expected but saw %s instead\n", tok.getLineNo() + 1, type.getPattern(), tok.getType().getPattern()));
+			str.append(stream.getPointer(tok, "          "));
+			str.append(String.format("\tsymbol: %s %s\n", tok.getTypeLabel(), tok.getLexeme()));
+			str.append(String.format("\tlocation: %s", tok.getCoordinates()));
+
+			errors.add(str.toString());
+
+			return null;
+		} else {
 			if (type != TokenType.EPSILON) {
 				stream.poll();
 			}
-			return true;
-		} else {
-			System.out.println(String.format("Parse failure: Expected %s but instead saw %s", type.getPattern(), stream.peek().getType().getPattern()));
-			System.out.println();
-			System.out.println(stream.getLocation(stream.peek()));
-			return false;
 		}
+
+		return node;
 	}
 
 	@Override

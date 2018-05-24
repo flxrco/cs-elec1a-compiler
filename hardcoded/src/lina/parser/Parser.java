@@ -1,10 +1,14 @@
 package lina.parser;
 
+import java.util.*;
 import java.io.*;
 
 import lina.lexer.TokenStream;
 import lina.lexer.tokenizer.TokenType;
 import lina.parser.cfg.Grammar;
+
+import lina.parser.parsetree.ParseNode;
+import lina.parser.parsetree.ParseNonTerminal;
 
 import lina.lexer.Lexer;
 
@@ -68,16 +72,20 @@ public class Parser {
 		grammar.buildGrammar();
 	}
 
-	public static boolean parseStream(String path) throws IOException {
+	public static ParseNode parseStream(String path) throws IOException {
 		return parseStream(Lexer.analyze(path));
 	}
 
-	public static boolean parseStream(TokenStream stream) {
+	public static ParseNode parseStream(TokenStream stream) {
 		return grammar.parse(stream);
 	}
 
 	public static void main(String[] args) throws IOException {
-		System.out.println(parseStream(args[0]));
+		ParseNode node = parseStream(args[0]);
+
+		for (String s : ((ParseNonTerminal) node).depthFirst()) {
+			System.out.println(s);
+		}
 	}
 
 }

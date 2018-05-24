@@ -7,6 +7,8 @@ import java.util.Queue;
 import lina.lexer.tokenizer.Token;
 import lina.lexer.tokenizer.TokenType;
 import lina.lexer.TokenStream;
+import lina.parser.parsetree.ParseNode;
+import lina.parser.parsetree.ParseNonTerminal;
 
 public class NonTerminal implements CFGNode {
 
@@ -38,30 +40,29 @@ public class NonTerminal implements CFGNode {
 	}
 
 	@Override
-	public boolean parse(TokenStream stream) {
+	public ParseNode parse(TokenStream stream, List<String> errors) {
+		ParseNonTerminal nt = new ParseNonTerminal(ruleName);
+		
 		for (CFGNode[] rules : ruleList) {
 			if (rules[0].lookAhead(stream)) {
 				for (CFGNode node : rules) {
-					if (node.parse(stream)) {
-						//continue parsing if parse yields true
-					} else {
-
-						//parsing will stop if an error was detected
-						return false;
-					}
+					nt.addNode(node.parse(stream, errors));
 				}
 
-				//if the loop stops naturally, it means that the parsing process for this production is successful
-				return true;
+				return nt;
 			}
 		}
 
-		//if all possible look-aheads have been performed and not a single one showed up, return false
-		/*
-			make an exception reporter here
-		*/
+		Token tok = stream.peek();
+		StringBuilder str = new StringBuilder();
+		str.append(String.format("%d: no lookaheads remaining for \n", tok.getLineNo() + 1));
+		str.append(stream.getPointer(tok, "          "));
+		str.append(String.format("\tsymbol: %s %s\n", tok.getTypeLabel(), tok.getLexeme()));
+		str.append(String.format("\tlocation: %s", tok.getCoordinates()));
 
-		return false;
+		errors.add(str.toString());		
+
+		return nt;
 	}
 
 	@Override

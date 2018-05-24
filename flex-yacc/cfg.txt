@@ -15,15 +15,15 @@ statement 	:	if_statement
 inner_statement	:	assignment_statement
 				|	yield_method
 
-if_statement	:	KEY_IF conditions KEY_THEN inner_statement SEMICOLON elseif_statements
+if_statement	:	KEY_IF logical_expression KEY_THEN inner_statement SEMICOLON elseif_statements
 
 elseif_statements 	:	elseif_statement elseif_statements_prime
 elseif_statements_prime	:	elseif_statement elseif_statements_prime
 						|	/*epsilon*/
 
-elseif_statement 	:	KEY_ELSEIF conditions KEY_THEN inner_statement SEMICOLON
+elseif_statement 	:	KEY_ELSEIF logical_expression KEY_THEN inner_statement SEMICOLON
 
-while_statement	:	KEY_WHILE conditions KEY_DO inner_statement SEMICOLON
+while_statement	:	KEY_WHILE logical_expression KEY_DO inner_statement SEMICOLON
 
 for_statement	:	KEY_FOR arithmetic_expression KEY_TO arithmetic_expression KEY_DO inner_statement KEY_STEP arithmetic_expression KEY_END SEMICOLON
 
@@ -59,16 +59,12 @@ relational_operator	:	REL_GRTR_EQ
 					|	REL_EQ
 					|	REL_NOT_EQ
 
-logical_expression	:	logical_term logical_expression_prime
-logical_expression_prime	:	logical_operator logical_term logical_expression_prime
+logical_expression	:	relational_expression logical_expression_prime
+logical_expression_prime	:	logical_operator relational_expression logical_expression_prime
 							|	/*epsilon*/
-
-logical_term	:	relational_expression
 
 logical_operator	:	LOG_AND
 					|	LOG_OR
-
-conditions	:	logical_expression
 
 store_method	:	KEY_STORE DEL_PAREN_OP DEL_PAREN_CL
 
