@@ -48,9 +48,7 @@ arithmetic_factor 	:	IDENTIFIER
 					|	LIT_INT
 
 
-relational_expression	:	arithmetic_expression relational_operator arithmetic_expression relational_expression_prime
-relational_expression_prime	:	relational_operator arithmetic_expression relational_expression_prime
-							|	/*epsilon*/
+relational_expression	:	arithmetic_expression relational_operator arithmetic_expression
 
 relational_operator	:	REL_GRTR_EQ
 					|	REL_LESS_EQ

@@ -1,0 +1,19 @@
+//:
+class [KatsProgram] {
+yield("Hello, world!");
+if 1 is== 1 then yield("One is to one!");
+declare: Integer: int is= 5;
+while int is>= 0 do int is= int - 1;
+yield(int);
+for 1 to 10 do yield("hello") step 1 end;
+declare: Integer: a is= 12;
+declare: Integer: b is= 13;
+declare: Integer: c is= a + b;
+yield(c);
+if c is> 10 then yield("grtrthan"); else if c is< 10 then yield("lessthan");
+
+while c is>= 15 do c is= c - 1;
+yield(c);
+
+}
+:/
