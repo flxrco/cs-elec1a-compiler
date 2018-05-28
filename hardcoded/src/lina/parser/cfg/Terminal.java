@@ -11,55 +11,58 @@ import lina.parser.parsetree.ParseTerminal;
 
 public class Terminal implements CFGNode {
 
-	private TokenType type;
+    private TokenType type;
 
-	public Terminal(TokenType type) {
-		this.type = type;
-	}
+    public Terminal(TokenType type) {
+        this.type = type;
+    }
 
-	public TokenType getType() {
-		return type;
-	}
+    public TokenType getType() {
+        return type;
+    }
 
-	public boolean compareType(Token token) {
-		if (type == TokenType.EPSILON) {
-			return true;
-		} else {
-			return token.compareType(type);
-		}
-	}
+    public boolean compareType(Token token) {
+        if (type == TokenType.EPSILON) {
+            return true;
+        } else {
+            return token.compareType(type);
+        }
+    }
 
-	public boolean lookAhead(TokenStream stream) {
-		return compareType(stream.peek());
-	}
+    public boolean lookAhead(TokenStream stream) {
+        return compareType(stream.peek());
+    }
 
-	@Override
-	public ParseNode parse(TokenStream stream, List<String> errors) {
-		Token tok = stream.peek();
+    @Override
+    public ParseNode parse(TokenStream stream, List<String> errors) {
+        Token tok = stream.peek();
+        
+        ParseTerminal node = new ParseTerminal(tok);
 
-		ParseTerminal node = new ParseTerminal(tok);
+        if (!compareType(tok)) {
+            StringBuilder str = new StringBuilder();
+            str.append(String.format("%d: %s expected but saw %s instead\n", tok.getLineNo() + 1, type.getPattern(), tok.getType().getPattern()));
+            str.append(stream.getPointer(tok, "          "));
+            str.append(String.format("\tsymbol: %s %s\n", tok.getTypeLabel(), tok.getLexeme()));
+            str.append(String.format("\tlocation: %s", tok.getCoordinates()));
 
-		if (!compareType(tok)) {
-			StringBuilder str = new StringBuilder();
-			str.append(String.format("%d: %s expected but saw %s instead\n", tok.getLineNo() + 1, type.getPattern(), tok.getType().getPattern()));
-			str.append(stream.getPointer(tok, "          "));
-			str.append(String.format("\tsymbol: %s %s\n", tok.getTypeLabel(), tok.getLexeme()));
-			str.append(String.format("\tlocation: %s", tok.getCoordinates()));
+            errors.add(str.toString());
 
-			errors.add(str.toString());
+            return null;
+        } else {
+            if (type != TokenType.EPSILON) {
+                stream.poll();
+            } else {
+                Token epsilon = new Token(TokenType.EPSILON, "", tok.getLineNo(), tok.getStartCol(), tok.getStartCol());
+                node = new ParseTerminal(epsilon);
+            }
+        }
+        
+        return node;
+    }
 
-			return null;
-		} else {
-			if (type != TokenType.EPSILON) {
-				stream.poll();
-			}
-		}
-
-		return node;
-	}
-
-	@Override
-	public String toString() {
-		return type.getLabel();
-	}
+    @Override
+    public String toString() {
+        return type.getLabel();
+    }
 }

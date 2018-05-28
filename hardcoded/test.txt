@@ -1,13 +1,19 @@
 //:
 class [KatsProgram] {
-trisha is= 7 + 2;
-david is= store();
-yield("grizzly bear"); $comment$
-yield("panda bear");
-yield("ice bear");
-declare: Integer: wan is= 1;
-for trish to 100 do wanmyg is= wanmyg + trish step 5 end;
-if wanmyg is> 5 then wanmyg is= 2; else if 5 is!= 5 && david is== wanmyg || wanmyg is> 5 then wanmyg is= wanmyg / 0;
-while david is!= 5 do david is= david + 1;
+yield("Hello, world!");
+if 1 is== 1 then yield("One is to one!");
+declare: Integer: int is= 5;
+while int is>= 0 do int is= int - 1;
+yield(int);
+for 1 to 10 do yield("hello") step 1 end;
+declare: Integer: a is= 12;
+declare: Integer: b is= 13;
+declare: Integer: c is= a + b;
+yield(c);
+if c is> 10 then yield("grtrthan"); else if c is< 10 then yield("lessthan");
+
+while c is>= 15 do c is= c - 1;
+yield(c);
+
 }
 :/
